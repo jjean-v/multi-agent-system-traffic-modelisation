@@ -1,3 +1,3 @@
-module multi-agent-system-traffic-modelisation
+module project
 
 go 1.26.8

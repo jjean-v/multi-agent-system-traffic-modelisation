@@ -3,28 +3,30 @@ package graph
 import "fmt"
 
 type Node struct {
-	Id     uint
-	Pos    int
-	Arc    []Arc
+	id     uint
+	pos    Vec2f
+	arcs   []*Arc
 	radius uint
 }
 
-func NewNodePointer(id uint, pos int, r uint) *Node {
-	return &Node{Id: id, Pos: pos, radius: r}
+func NewNode(id uint, pos Vec2f, r uint) Node {
+	return Node{id: id, pos: pos, radius: r}
 }
 
-func NewNode(id uint, pos int, r uint) Node {
-	return Node{Id: id, Pos: pos, radius: r}
+// To be deleted after, I think
+func (n *Node) AddArc(a *Arc) {
+	n.arcs = append(n.arcs, a)
 }
 
 func (n *Node) Print() {
-	fmt.Println("Node:")
-	fmt.Println("\tId:", n.Id)
-	fmt.Println("\tPos:", n.Pos)
-	fmt.Println("\tRadius:", n.radius)
+	fmt.Printf("Node:\n")
+	fmt.Printf("\tId: %d\n", n.id)
+	fmt.Printf("\tRadius: %d\n", n.radius)
+	n.pos.Print()
 	fmt.Printf("\tArc: \n")
-	for arc := range n.Arc {
-		fmt.Println(arc)
+	for arc := range n.arcs {
+		n.arcs[arc].PrintIndent("\t\t")
 	}
+	fmt.Println()
 
 }

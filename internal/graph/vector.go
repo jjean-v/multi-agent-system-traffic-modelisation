@@ -2,6 +2,7 @@ package graph
 
 import (
 	"errors"
+	"fmt"
 	"math"
 )
 
@@ -96,4 +97,9 @@ func (v1 Vec2f) GetNormalized() (Vec2f, error) {
 
 	oneOverLength := 1.0 / v1.GetLength()
 	return NewVec2f(oneOverLength*v1.x, oneOverLength*v1.y), nil
+}
+
+func (v *Vec2f) Print() {
+	fmt.Println("x:", v.x)
+	fmt.Println("y:", v.y)
 }

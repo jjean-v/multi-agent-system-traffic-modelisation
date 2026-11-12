@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"project/internal/graph"
 )
 
@@ -17,7 +16,7 @@ func main() {
 
 	n1.AddArc(arc1)
 
-	fmt.Println(graph.PedestrianPriority)
 	n1.Print()
 	n2.Print()
+
 }

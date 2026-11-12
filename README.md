@@ -6,6 +6,7 @@ The goal of this project is to simulate the traffic near ou school and see if we
 ## Structure of the repo
 
 Here is a quick view of the overall structure.
+This is a starting point, don't hesitate to add new folder and add it in the Readme.
 
 ```
 project/
@@ -15,7 +16,8 @@ project/
 │   └── headless/main.go   # (optionnal) simu without graphic : tests, stats, batch
 ├── internal/
 │   ├── agent/             # interface Agent + type of agent (one file per type)
-│   ├── environment/       # state of the world, percept, application of act
+│   ├── env/               # state of the world, percept, application of act
+│   ├── graph/             # Everything that is needed for the construction of a graph.
 │   ├── simulation/        # loop, clock, start/pause/stop, snapshots
 │   ├── gui/               # everything that is linked to Ebiten : Game, rendu, input, sprites
 │   └── config/            # parameter (nb of agents, size of the map, speed)

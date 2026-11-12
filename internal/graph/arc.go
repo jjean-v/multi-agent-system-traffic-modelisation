@@ -2,33 +2,25 @@ package graph
 
 import "fmt"
 
-type typeTrafficLaw int
-
-const (
-	YieldToTheRight typeTrafficLaw = iota
-	Yield
-	Stop
-	PriorityRoad
-	PedestrianPriority
-)
-
-type rule struct {
-	speedLimit uint
-	trafficLaw typeTrafficLaw
-}
-
 type Arc struct {
-	Id       uint
+	id       uint
 	rule     rule
 	nextNode *Node
 }
 
 func NewArc(id uint, r rule, nxtNode *Node) *Arc {
-	return &Arc{Id: id, rule: r, nextNode: nxtNode}
+	return &Arc{id: id, rule: r, nextNode: nxtNode}
 }
 
 func (a *Arc) Print() {
-	fmt.Println("Id: %d", a.Id)
-	fmt.Println("Rule: %d", a.rule)
-	fmt.Println("NextNode: %d", a.nextNode.Id)
+	fmt.Println("Id:", a.id)
+	fmt.Println("Rule:", a.rule)
+	fmt.Println("NextNode:", a.nextNode.id)
+}
+
+func (a *Arc) PrintIndent(indent string) {
+	fmt.Printf(indent+"Id: %d\n", a.id)
+	fmt.Println(indent + "Rule:")
+	a.rule.PrintIndent(indent + "\t")
+	fmt.Printf(indent+"NextNode: %d\n", a.nextNode.id)
 }

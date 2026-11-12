@@ -100,6 +100,6 @@ func (v1 Vec2f) GetNormalized() (Vec2f, error) {
 }
 
 func (v *Vec2f) Print() {
-	fmt.Println("x:", v.x)
-	fmt.Println("y:", v.y)
+	fmt.Println("\tx:", v.x)
+	fmt.Println("\ty:", v.y)
 }

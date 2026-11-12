@@ -12,6 +12,30 @@ func NewArc(id uint, r rule, nxtNode *Node) *Arc {
 	return &Arc{id: id, rule: r, nextNode: nxtNode}
 }
 
+func (a *Arc) GetId() uint {
+	return a.id
+}
+
+func (a *Arc) GetRule() rule {
+	return a.rule
+}
+
+func (a *Arc) GetNextNode() *Node {
+	return a.nextNode
+}
+
+func (a *Arc) SetId(id uint) {
+	a.id = id
+}
+
+func (a *Arc) SetRule(r rule) {
+	a.rule = r
+}
+
+func (a *Arc) SetNextNode(node *Node) {
+	a.nextNode = node
+}
+
 func (a *Arc) Print() {
 	fmt.Println("Id:", a.id)
 	fmt.Println("Rule:", a.rule)

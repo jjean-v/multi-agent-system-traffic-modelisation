@@ -25,8 +25,8 @@ type rule struct {
 	trafficLaw typeTrafficLaw
 }
 
-func NewRule(speedL uint, sign typeTrafficLaw) *rule {
-	return &rule{speedLimit: speedL, trafficLaw: sign}
+func NewRule(speedL uint, sign typeTrafficLaw) rule {
+	return rule{speedLimit: speedL, trafficLaw: sign}
 }
 
 func (tt typeTrafficLaw) String() string {

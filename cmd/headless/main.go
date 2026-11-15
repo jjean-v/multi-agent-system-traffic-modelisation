@@ -14,7 +14,7 @@ func main() {
 	rule1 := graph.NewRule(30, graph.Yield)
 	arc1 := graph.NewArc(100, *rule1, &n2)
 
-	n1.AddArc(arc1)
+	n1.AddArc(&arc1)
 
 	n1.Print()
 	n2.Print()

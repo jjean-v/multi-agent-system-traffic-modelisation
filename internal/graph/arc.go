@@ -8,8 +8,8 @@ type Arc struct {
 	nextNode *Node
 }
 
-func NewArc(id uint, r rule, nxtNode *Node) *Arc {
-	return &Arc{id: id, rule: r, nextNode: nxtNode}
+func NewArc(id uint, r rule, nxtNode *Node) Arc {
+	return Arc{id: id, rule: r, nextNode: nxtNode}
 }
 
 func (a *Arc) GetId() uint {

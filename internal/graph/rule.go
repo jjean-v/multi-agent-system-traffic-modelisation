@@ -37,3 +37,19 @@ func (r *rule) PrintIndent(indent string) {
 	fmt.Printf(indent+"Speed Limit: %d\n", r.speedLimit)
 	fmt.Printf(indent+"Traffic Rule: %s\n", r.trafficLaw)
 }
+
+func (r *rule) GetSpeedLimit() uint {
+	return r.speedLimit
+}
+
+func (r *rule) GetTrafficLaw() typeTrafficLaw {
+	return r.trafficLaw
+}
+
+func (r *rule) SetSpeedLimit(speed uint) {
+	r.speedLimit = speed
+}
+
+func (r *rule) SetTrafficLaw(traffic typeTrafficLaw) {
+	r.trafficLaw = traffic
+}

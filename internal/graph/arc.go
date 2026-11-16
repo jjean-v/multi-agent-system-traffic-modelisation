@@ -4,19 +4,24 @@ import "fmt"
 
 type Arc struct {
 	id       uint
-	rule     rule
+	rule     *rule
+	from     *Node
 	nextNode *Node
 }
 
-func NewArc(id uint, r rule, nxtNode *Node) Arc {
-	return Arc{id: id, rule: r, nextNode: nxtNode}
+func NewArc(id uint, r *rule, from *Node, nxtNode *Node) Arc {
+	return Arc{id: id, rule: r, from: from, nextNode: nxtNode}
+}
+
+func (a *Arc) GetFrom() *Node {
+	return a.from
 }
 
 func (a *Arc) GetId() uint {
 	return a.id
 }
 
-func (a *Arc) GetRule() rule {
+func (a *Arc) GetRule() *rule {
 	return a.rule
 }
 
@@ -28,7 +33,7 @@ func (a *Arc) SetId(id uint) {
 	a.id = id
 }
 
-func (a *Arc) SetRule(r rule) {
+func (a *Arc) SetRule(r *rule) {
 	a.rule = r
 }
 

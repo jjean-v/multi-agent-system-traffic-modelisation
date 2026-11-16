@@ -1,6 +1,9 @@
 package graph
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 type Node struct {
 	id     uint
@@ -43,6 +46,13 @@ func (n *Node) SetRadius(r uint) {
 
 func (n *Node) AddArc(a *Arc) {
 	n.arcs = append(n.arcs, a)
+}
+
+func (n *Node) RemoveArc(a *Arc) {
+	i := slices.Index(n.arcs, a)
+	if i != -1 {
+		n.arcs = slices.Delete(n.arcs, i, i+1) // retire de i a i+1
+	}
 }
 
 func (n *Node) Print() {

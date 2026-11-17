@@ -36,7 +36,7 @@ type Agent struct {
 	hitbox      int
 	confortZone int
 
-	fieldOfVision int //à bien définir c'est juste pour faire env
+	fieldOfVision FieldOfVision
 	goal          int //c'est un point of interest normalement, j'en ai pas besoin pour faire env
 
 	inBox chan com.Message
@@ -50,4 +50,8 @@ func (a *Agent) GetID() string {
 
 func (a *Agent) GetPos() graph.Vec2f {
 	return a.pos
+}
+
+func (a *Agent) GetFieldOfVision() FieldOfVision {
+	return a.fieldOfVision
 }

@@ -13,11 +13,11 @@ func NewFieldOfVision(radius, angle float32) FieldOfVision {
 	return FieldOfVision{radius, angle}
 }
 
-func (fov *FieldOfVision) GetRadius() float32 {
+func (fov FieldOfVision) GetRadius() float32 {
 	return fov.radius
 }
 
-func (fov *FieldOfVision) GetAngle() float32 {
+func (fov FieldOfVision) GetAngle() float32 {
 	return fov.angle
 }
 

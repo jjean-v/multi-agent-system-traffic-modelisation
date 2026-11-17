@@ -28,6 +28,10 @@ type Agent struct {
 
 //Constructeur maquant
 
+func (a *Agent) GetID() string {
+	return a.id
+}
+
 func (a *Agent) GetPos() graph.Vec2f {
 	return a.pos
 }

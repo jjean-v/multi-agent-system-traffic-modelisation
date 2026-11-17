@@ -25,3 +25,9 @@ type Agent struct {
 
 	inBox chan com.Message
 }
+
+//Constructeur maquant
+
+func (a *Agent) GetPos() graph.Vec2f {
+	return a.pos
+}

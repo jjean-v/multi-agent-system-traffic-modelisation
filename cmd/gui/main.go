@@ -9,14 +9,12 @@ import (
 )
 
 func main() {
-	n1 := graph.NewNode(1, graph.NewVec2f(500, 360), 20)
-	n2 := graph.NewNode(2, graph.NewVec2f(780, 360), 20)
-	rule1 := graph.NewRule(30, graph.PriorityRoad)
-	a1 := graph.NewArc(1, *rule1, &n2)
-	n1.AddArc(a1)
-	nodes := []*graph.Node{&n1, &n2}
+	gr := graph.NewGraph()
+	n1 := gr.CreateNode(500, 360, 20)
+	n2 := gr.CreateNode(780, 360, 20)
+	gr.AddConnection(n1.GetId(), n2.GetId())
 
-	game := gui.NewGame(nodes)
+	game := gui.NewGame(&gr)
 
 	ebiten.SetWindowSize(gui.ScreenW, gui.ScreenH)
 	ebiten.SetWindowTitle("IA04 simulation rond point BF")

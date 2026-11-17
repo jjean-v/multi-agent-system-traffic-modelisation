@@ -23,14 +23,22 @@ func (g *Graph) GetArcByID(id uint) *Arc {
 	return g.arcs[id]
 }
 
-func (g *Graph) createNode(x int, y int, radius uint) *Node {
+func (g *Graph) GetNodes() map[uint]*Node {
+	return g.nodes
+}
+
+func (g *Graph) GetArcs() map[uint]*Arc {
+	return g.arcs
+}
+
+func (g *Graph) CreateNode(x int, y int, radius uint) *Node {
 	n := NewNode(g.nextNodeID, NewVec2f(float32(x), float32(y)), radius)
 	g.nextNodeID++
 	g.nodes[n.id] = &n
 	return &n
 }
 
-func (g *Graph) createArc(from *Node, NextNode *Node) *Arc {
+func (g *Graph) CreateArc(from *Node, NextNode *Node) *Arc {
 	arc := NewArc(g.nextArcID, nil, from, NextNode)
 	g.nextArcID++
 	g.arcs[arc.id] = &arc
@@ -42,7 +50,7 @@ func (g *Graph) AddConnection(N1 uint, N2 uint) bool {
 		return false
 	} else {
 		from := g.GetNodeByID(N1)
-		from.AddArc(g.createArc(from, g.GetNodeByID(N2)))
+		from.AddArc(g.CreateArc(from, g.GetNodeByID(N2)))
 		return true
 	}
 }

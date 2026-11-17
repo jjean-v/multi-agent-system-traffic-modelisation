@@ -4,8 +4,8 @@ import "testing"
 
 func TestAddAndDeleteArc(t *testing.T) {
 	g := NewGraph()
-	n1 := g.createNode(0, 0, 1)
-	n2 := g.createNode(10, 0, 1)
+	n1 := g.CreateNode(0, 0, 1)
+	n2 := g.CreateNode(10, 0, 1)
 
 	if !g.AddConnection(n1.id, n2.id) {
 		t.Fatal("AddConnection should succeed")

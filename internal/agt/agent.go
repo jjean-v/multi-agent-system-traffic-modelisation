@@ -52,6 +52,10 @@ func (a *Agent) GetPos() graph.Vec2f {
 	return a.pos
 }
 
+func (a *Agent) GetSpeed() graph.Vec2f {
+	return a.speed
+}
+
 func (a *Agent) GetFieldOfVision() FieldOfVision {
 	return a.fieldOfVision
 }

@@ -44,7 +44,7 @@ type Agent struct {
 
 //Constructeur maquant
 
-func (a *Agent) GetID() string {
+func (a *Agent) GetId() string {
 	return a.id
 }
 

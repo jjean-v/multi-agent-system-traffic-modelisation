@@ -34,15 +34,15 @@ func (g *Graph) GetArcs() map[uint]*Arc {
 func (g *Graph) CreateNode(x int, y int, radius uint) *Node {
 	n := NewNode(g.nextNodeID, NewVec2f(float32(x), float32(y)), radius)
 	g.nextNodeID++
-	g.nodes[n.id] = &n
-	return &n
+	g.nodes[n.id] = n
+	return n
 }
 
 func (g *Graph) CreateArc(from *Node, NextNode *Node) *Arc {
 	arc := NewArc(g.nextArcID, nil, from, NextNode)
 	g.nextArcID++
-	g.arcs[arc.id] = &arc
-	return &arc
+	g.arcs[arc.id] = arc
+	return arc
 }
 
 func (g *Graph) AddConnection(N1 uint, N2 uint) bool {

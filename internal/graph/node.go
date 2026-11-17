@@ -12,8 +12,8 @@ type Node struct {
 	radius uint
 }
 
-func NewNode(id uint, pos Vec2f, r uint) Node {
-	return Node{id: id, pos: pos, radius: r}
+func NewNode(id uint, pos Vec2f, r uint) *Node {
+	return &Node{id: id, pos: pos, radius: r}
 }
 
 func (n *Node) GetId() uint {

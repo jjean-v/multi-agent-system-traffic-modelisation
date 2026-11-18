@@ -40,3 +40,12 @@ func drawArc(screen *ebiten.Image, a *graph.Arc, colorArc color.Color) {
 	xEnd, yEnd := posEnd.GetX(), posEnd.GetY()
 	vector.StrokeLine(screen, xStart, yStart, xEnd, yEnd, 3, colorArc, true)
 }
+
+func drawNodePreview(screen *ebiten.Image) {
+	mouseX, mouseY := ebiten.CursorPosition()
+	fmouseX, fmouseY := float32(mouseX), float32(mouseY)
+	settingsHovered := fmouseX >= SettingsX && fmouseX <= SettingsX+SettingsW && fmouseY >= SettingsY && fmouseY <= SettingsY+SettingsH
+	if !settingsHovered {
+		vector.FillCircle(screen, fmouseX, fmouseY, Radius, nodePreviewColor, true)
+	}
+}

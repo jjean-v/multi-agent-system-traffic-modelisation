@@ -12,6 +12,6 @@ func (g *Game) HandleEditInput() {
 
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
 		mouseX, mouseY := ebiten.CursorPosition()
-		g.graph.CreateNode(mouseX, mouseY, 20)
+		g.graph.CreateNode(mouseX, mouseY, Radius)
 	}
 }

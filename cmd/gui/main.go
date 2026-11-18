@@ -10,9 +10,6 @@ import (
 
 func main() {
 	gr := graph.NewGraph()
-	n1 := gr.CreateNode(500, 360, 20)
-	n2 := gr.CreateNode(780, 360, 20)
-	gr.AddConnection(n1.GetId(), n2.GetId())
 
 	game := gui.NewGame(&gr)
 

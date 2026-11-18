@@ -9,8 +9,8 @@ type Arc struct {
 	nextNode *Node
 }
 
-func NewArc(id uint, r *rule, from *Node, nxtNode *Node) Arc {
-	return Arc{id: id, rule: r, from: from, nextNode: nxtNode}
+func NewArc(id uint, r *rule, from *Node, nxtNode *Node) *Arc {
+	return &Arc{id: id, rule: r, from: from, nextNode: nxtNode}
 }
 
 func (a *Arc) GetFrom() *Node {

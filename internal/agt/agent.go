@@ -22,7 +22,7 @@ func (fov FieldOfVision) GetAngle() float32 {
 }
 
 type Agent struct {
-	id string
+	id int
 
 	pos   graph.Vec2f
 	speed graph.Vec2f
@@ -42,9 +42,17 @@ type Agent struct {
 	inBox chan com.Message
 }
 
-//Constructeur maquant
+func NewAgent(id int, pos, speed graph.Vec2f, fov FieldOfVision) *Agent {
+	return &Agent{
+		id:            id,
+		pos:           pos,
+		speed:         speed,
+		fieldOfVision: fov,
+		inBox:         make(chan com.Message),
+	}
+}
 
-func (a *Agent) GetId() string {
+func (a *Agent) GetId() int {
 	return a.id
 }
 

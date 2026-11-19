@@ -10,6 +10,24 @@ import (
 
 func main() {
 	gr := graph.NewGraph()
+	n1 := gr.CreateNode(100, 200, 20)
+	n2 := gr.CreateNode(250, 200, 20)
+	n3 := gr.CreateNode(300, 300, 20)
+	n4 := gr.CreateNode(400, 400, 20)
+	n5 := gr.CreateNode(500, 400, 20)
+	n6 := gr.CreateNode(600, 300, 20)
+	n7 := gr.CreateNode(650, 200, 20)
+	n8 := gr.CreateNode(800, 200, 20)
+	n9 := gr.CreateNode(500, 500, 20)
+
+	gr.AddConnection(n1.GetId(), n2.GetId())
+	gr.AddConnection(n2.GetId(), n3.GetId())
+	gr.AddConnection(n3.GetId(), n4.GetId())
+	gr.AddConnection(n4.GetId(), n5.GetId())
+	gr.AddConnection(n5.GetId(), n6.GetId())
+	gr.AddConnection(n6.GetId(), n7.GetId())
+	gr.AddConnection(n7.GetId(), n8.GetId())
+	gr.AddConnection(n5.GetId(), n9.GetId())
 
 	game := gui.NewGame(&gr)
 

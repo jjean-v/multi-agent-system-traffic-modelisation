@@ -3,15 +3,15 @@ package obj
 import "project/internal/graph"
 
 type Object struct {
-	id  string
+	id  int
 	pos graph.Vec2f
 }
 
-func NewObject(id string, pos graph.Vec2f) Object {
-	return Object{id, pos}
+func NewObject(id int, pos graph.Vec2f) *Object {
+	return &Object{id, pos}
 }
 
-func (o *Object) GetId() string {
+func (o *Object) GetId() int {
 	return o.id
 }
 

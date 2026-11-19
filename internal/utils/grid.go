@@ -8,17 +8,34 @@ import (
 var ErrOutOfGrid = errors.New("cell is outside the grid")
 
 type Grid struct {
-	cells     [][]int
-	cellCount graph.Vec2i
-	cellSize  graph.Vec2i
+	cells       [][]int
+	cellCount   graph.Vec2i
+	cellSize    graph.Vec2f
+	cellSizeInv graph.Vec2f
 }
 
-func NewGrid(cellCount, cellSize graph.Vec2i) *Grid {
-	return &Grid{
-		cells:     make([][]int, cellCount.GetX()*cellCount.GetY()),
-		cellCount: cellCount,
-		cellSize:  cellSize,
+func NewGrid(size graph.Vec2f, cellCount graph.Vec2i) (*Grid, error) {
+	cellCountInv, err1 := cellCount.ToVec2f().Inv()
+	if err1 != nil {
+		return nil, err1
 	}
+
+	cellSize := size.Mult(cellCountInv)
+	cellSizeInv, err2 := cellSize.Inv()
+	if err2 != nil {
+		return nil, err2
+	}
+
+	return &Grid{
+		make([][]int, cellCount.GetX()*cellCount.GetY()),
+		cellCount,
+		cellSize,
+		cellSizeInv,
+	}, nil
+}
+
+func (g *Grid) scale(v graph.Vec2f) graph.Vec2f {
+	return v.Mult(g.cellSizeInv)
 }
 
 func (g *Grid) indexXY(x, y int) (int, bool) {
@@ -38,23 +55,21 @@ func (g *Grid) Clear() {
 	}
 }
 
-func (g *Grid) GetValuesAt(cell graph.Vec2i) ([]int, error) {
-	i, ok := g.index(cell)
+func (g *Grid) GetValuesAt(cell graph.Vec2f) ([]int, error) {
+	i, ok := g.index(g.scale(cell).FloorToVec2i())
 	if !ok {
 		return nil, ErrOutOfGrid
 	}
 	return g.cells[i], nil
 }
 
-func (g *Grid) GetCellsAroundMe(cell graph.Vec2i) [][]int {
-	cx, cy := cell.GetX(), cell.GetY()
+func (g *Grid) GetCellsAroundMe(cell graph.Vec2f) [][]int {
+	tempCell := g.scale(cell).FloorToVec2i()
+	cx, cy := tempCell.GetX(), tempCell.GetY()
 	around := make([][]int, 0, 8)
 
 	for dx := -1; dx <= 1; dx++ {
 		for dy := -1; dy <= 1; dy++ {
-			if dx == 0 && dy == 0 {
-				continue // la case elle-même
-			}
 			if i, ok := g.indexXY(cx+dx, cy+dy); ok {
 				around = append(around, g.cells[i])
 			}
@@ -63,8 +78,8 @@ func (g *Grid) GetCellsAroundMe(cell graph.Vec2i) [][]int {
 	return around
 }
 
-func (g *Grid) AddTo(cell graph.Vec2i, id int) error {
-	i, ok := g.index(cell)
+func (g *Grid) AddTo(cell graph.Vec2f, id int) error {
+	i, ok := g.index(g.scale(cell).FloorToVec2i())
 	if !ok {
 		return ErrOutOfGrid
 	}

@@ -64,6 +64,17 @@ func (v1 Vec2f) Sub(v2 Vec2f) Vec2f {
 	return NewVec2f(v1.x-v2.x, v1.y-v2.y)
 }
 
+func (v1 Vec2f) Mult(v2 Vec2f) Vec2f {
+	return NewVec2f(v1.x*v2.x, v1.y*v2.y)
+}
+
+func (v1 Vec2f) Inv() (Vec2f, error) {
+	if v1.AlmostEqualZero() {
+		return v1, errors.New("Almost Equal to Zero")
+	}
+	return NewVec2f(1.0/v1.x, 1.0/v1.y), nil
+}
+
 func (v1 Vec2f) Dot(v2 Vec2f) float32 {
 	return v1.x*v2.x + v1.y*v2.y
 }
@@ -152,6 +163,10 @@ func (v1 Vec2i) Sub(v2 Vec2i) Vec2i {
 	return NewVec2i(v1.x-v2.x, v1.y-v2.y)
 }
 
+func (v1 Vec2i) Mult(v2 Vec2i) Vec2i {
+	return NewVec2i(v1.x*v2.x, v1.y*v2.y)
+}
+
 func (v1 Vec2i) Dot(v2 Vec2i) int {
 	return v1.x*v2.x + v1.y*v2.y
 }
@@ -205,6 +220,11 @@ func (v1 Vec2f) ToVec2i() Vec2i {
 // Conversion Vec2f -> Vec2i à l'entier le plus proche.
 func (v1 Vec2f) RoundToVec2i() Vec2i {
 	return NewVec2i(int(math.Round(float64(v1.x))), int(math.Round(float64(v1.y))))
+}
+
+// Conversion Vec2f -> Vec2i à l'entier le plus proche.
+func (v1 Vec2f) FloorToVec2i() Vec2i {
+	return NewVec2i(int(math.Floor(float64(v1.x))), int(math.Floor(float64(v1.y))))
 }
 
 func (v *Vec2i) Print() {

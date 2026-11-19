@@ -20,15 +20,27 @@ type Environment struct {
 	in chan com.Message //A modifier plus tard je pense mais pour les fonctions de l'env on en a pas besoin mnt. C'est un peu un squelette là
 }
 
-func NewEnvironment(mapSize graph.Vec2f, agents []*agt.Agent, objects []*obj.Object) Environment {
-	return Environment{mapSize,
-		*utils.NewGrid(graph.NewVec2i(10, 10), mapSize.Scale(0.1).RoundToVec2i()),
-		*utils.NewGrid(graph.NewVec2i(10, 10), mapSize.Scale(0.1).RoundToVec2i()),
-		agents, objects,
-		make(chan com.Message)}
+func NewEnvironment(mapSize graph.Vec2f, agents []*agt.Agent, objects []*obj.Object) (*Environment, error) {
+	agentsGrid, err := utils.NewGrid(mapSize, graph.NewVec2i(10, 10))
+	if err != nil {
+		return nil, err
+	}
+	objectsGrid, err := utils.NewGrid(mapSize, graph.NewVec2i(10, 10))
+	if err != nil {
+		return nil, err
+	}
+
+	return &Environment{
+		mapSize,
+		*agentsGrid,
+		*objectsGrid,
+		agents,
+		objects,
+		make(chan com.Message),
+	}, nil
 }
 
-func (e *Environment) init() {
+func (e *Environment) Init() {
 	e.UpdateAgentsGrid()
 	e.updateObjectsGrid()
 }
@@ -38,7 +50,7 @@ func (e *Environment) UpdateAgentsGrid() {
 	e.agentsGrid.Clear()
 
 	for i, a := range e.agents {
-		e.agentsGrid.AddTo(a.GetPos().RoundToVec2i(), i)
+		e.agentsGrid.AddTo(a.GetPos(), i)
 	}
 }
 
@@ -47,15 +59,14 @@ func (e *Environment) updateObjectsGrid() {
 	e.objectsGrid.Clear()
 
 	for i, o := range e.objects {
-		e.objectsGrid.AddTo(o.GetPos().RoundToVec2i(), i)
+		e.objectsGrid.AddTo(o.GetPos(), i)
 	}
 }
 
 func (e *Environment) GetAgentsAroundMe(agent *agt.Agent) []*agt.Agent {
 
 	var agentsAroundMe []*agt.Agent
-	cellsAround := e.agentsGrid.GetCellsAroundMe(agent.GetPos().RoundToVec2i())
-
+	cellsAround := e.agentsGrid.GetCellsAroundMe(agent.GetPos())
 	for _, cA := range cellsAround {
 		for _, i := range cA {
 			a := e.agents[i]
@@ -73,7 +84,7 @@ func (e *Environment) GetObjectsAroundMe(agent *agt.Agent) []*obj.Object {
 	var objectsAroundMe []*obj.Object
 	pos := agent.GetPos()
 
-	for _, cell := range e.objectsGrid.GetCellsAroundMe(pos.RoundToVec2i()) {
+	for _, cell := range e.objectsGrid.GetCellsAroundMe(pos) {
 		for _, i := range cell {
 			o := e.objects[i]
 			if agent.GetId() != o.GetId() && pos.GetDistanceSquaredWith(o.GetPos()) <= 15*15 { // 15 à redéfinir
@@ -99,7 +110,7 @@ func isInFieldOfVision(agent *agt.Agent, target graph.Vec2f) bool {
 func (e *Environment) GetAgentsISee(agent *agt.Agent) []*agt.Agent {
 	var agentsISee []*agt.Agent
 
-	for _, cell := range e.agentsGrid.GetCellsAroundMe(agent.GetPos().RoundToVec2i()) {
+	for _, cell := range e.agentsGrid.GetCellsAroundMe(agent.GetPos()) {
 		for _, i := range cell {
 			a := e.agents[i]
 			if agent.GetId() != a.GetId() && isInFieldOfVision(agent, a.GetPos()) {
@@ -113,7 +124,7 @@ func (e *Environment) GetAgentsISee(agent *agt.Agent) []*agt.Agent {
 func (e *Environment) GetObjectsISee(agent *agt.Agent) []*obj.Object {
 	var objectsISee []*obj.Object
 
-	for _, cell := range e.objectsGrid.GetCellsAroundMe(agent.GetPos().RoundToVec2i()) {
+	for _, cell := range e.objectsGrid.GetCellsAroundMe(agent.GetPos()) {
 		for _, i := range cell {
 			o := e.objects[i]
 			if agent.GetId() != o.GetId() && isInFieldOfVision(agent, o.GetPos()) {

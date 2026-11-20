@@ -1,5 +1,7 @@
 package graph
 
+import "fmt"
+
 type Graph struct {
 	nodes map[uint]*Node
 	arcs  map[uint]*Arc
@@ -63,4 +65,19 @@ func (g *Graph) DeleteArc(ArcID uint) bool {
 	arc.from.RemoveArc(arc)
 	delete(g.arcs, ArcID)
 	return true
+}
+
+func (g *Graph) IsThereNode(x float32, y float32, radius uint) *Node {
+	vecPose := Vec2f{x: x, y: y}
+	var dist float32
+	for _, node := range g.nodes {
+		dist = node.pos.GetDistanceWith(vecPose)
+
+		if dist <= (float32(node.radius + radius)) {
+			fmt.Println("Node found")
+			return node
+		}
+
+	}
+	return nil
 }

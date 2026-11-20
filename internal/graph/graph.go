@@ -64,3 +64,17 @@ func (g *Graph) DeleteArc(ArcID uint) bool {
 	delete(g.arcs, ArcID)
 	return true
 }
+
+func (g *Graph) IsThereNode(x float32, y float32, radius uint) *Node {
+	vecPose := Vec2f{x: x, y: y}
+	var dist float32
+	for _, node := range g.nodes {
+		dist = node.pos.GetDistanceWith(vecPose)
+
+		if dist <= (float32(node.radius + radius)) {
+			return node
+		}
+
+	}
+	return nil
+}

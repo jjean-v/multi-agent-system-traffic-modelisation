@@ -1,7 +1,5 @@
 package graph
 
-import "fmt"
-
 type Graph struct {
 	nodes map[uint]*Node
 	arcs  map[uint]*Arc
@@ -74,7 +72,6 @@ func (g *Graph) IsThereNode(x float32, y float32, radius uint) *Node {
 		dist = node.pos.GetDistanceWith(vecPose)
 
 		if dist <= (float32(node.radius + radius)) {
-			fmt.Println("Node found")
 			return node
 		}
 

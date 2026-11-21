@@ -56,6 +56,8 @@ func NewGame(gr *graph.Graph) *Game {
 	g := &Game{graph: gr}
 	g.creativeButton = NewButton(ButtonX, ButtonCreativeY, ButtonW, ButtonH, LabelCreativeOff, func() { g.setCreativeMode() }, buttonColor, buttonColorHover)
 	g.createNodeorArcButton = NewButton(ButtonX, ButtonCreateY, ButtonW, ButtonH, LabelCreateNode, func() { g.setCreateMode() }, buttonColor, buttonColorHover)
+	g.creativeButton = NewButton(ButtonX, ButtonCreativeY, ButtonW, ButtonH, LabelCreativeOff, func() { g.setCreativeMode() }, buttonColor, buttonColorHover)
+	g.createNodeorArcButton = NewButton(ButtonX, ButtonCreateY, ButtonW, ButtonH, LabelCreateNode, func() { g.setCreateMode() }, buttonColor, buttonColorHover)
 	return g
 }
 

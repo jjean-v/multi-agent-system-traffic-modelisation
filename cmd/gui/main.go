@@ -5,6 +5,7 @@ import (
 	"project/internal/graph"
 	"project/internal/gui"
 
+	"github.com/beefsack/go-astar"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
@@ -19,6 +20,7 @@ func main() {
 	n7 := gr.CreateNode(650, 200, 20)
 	n8 := gr.CreateNode(800, 200, 20)
 	n9 := gr.CreateNode(500, 500, 20)
+	n10 := gr.CreateNode(450, 350, 20)
 
 	gr.AddConnection(n1.GetId(), n2.GetId())
 	gr.AddConnection(n2.GetId(), n3.GetId())
@@ -28,6 +30,19 @@ func main() {
 	gr.AddConnection(n6.GetId(), n7.GetId())
 	gr.AddConnection(n7.GetId(), n8.GetId())
 	gr.AddConnection(n5.GetId(), n9.GetId())
+	gr.AddConnection(n3.GetId(), n10.GetId())
+	gr.AddConnection(n10.GetId(), n6.GetId())
+
+	path, distance, found := astar.Path(n1, n8)
+	if !found {
+		log.Println("Could not find path")
+	} else {
+		for _, pos := range path {
+			p := pos.(*graph.Node)
+			log.Println(p.GetId())
+		}
+		log.Println(distance)
+	}
 
 	game := gui.NewGame(&gr)
 

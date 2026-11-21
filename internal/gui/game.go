@@ -31,12 +31,15 @@ const (
 )
 
 var (
-	buttonColor      = color.RGBA{70, 70, 70, 255}    //gris foncé
-	buttonColorHover = color.RGBA{100, 100, 100, 255} //gris clair
-	backgroundColor  = color.RGBA{40, 40, 40, 255}    //gris anthracite
-	nodeColor        = color.RGBA{70, 130, 220, 255}  //bleu
-	nodePreviewColor = color.RGBA{90, 150, 250, 75}   //bleu clair transparent
-	arcColor         = color.RGBA{255, 100, 100, 255} //rouge
+	buttonColor       = color.RGBA{70, 70, 70, 255}    //gris foncé
+	buttonColorHover  = color.RGBA{100, 100, 100, 255} //gris clair
+	backgroundColor   = color.RGBA{40, 40, 40, 255}    //gris anthracite
+	nodeColor         = color.RGBA{70, 130, 220, 255}  //bleu
+	nodePreviewColor  = color.RGBA{90, 150, 250, 75}   //bleu clair transparent
+	nodeSelectedColor = color.RGBA{120, 170, 255, 150} //bleu clair
+	arcColor          = color.RGBA{255, 100, 100, 255} //rouge
+	arcPreviewColor   = color.RGBA{200, 130, 130, 255} //rouge pale
+	hoveredNodeColor  = color.RGBA{200, 80, 200, 150}  //violet
 )
 
 type Game struct {
@@ -46,6 +49,7 @@ type Game struct {
 	clearGraphButton      *Button
 	creativeMode          bool
 	createArc             bool
+	arcStart              *graph.Node
 }
 
 func NewGame(gr *graph.Graph) *Game {
@@ -56,6 +60,7 @@ func NewGame(gr *graph.Graph) *Game {
 }
 
 func (g *Game) setCreativeMode() {
+	g.arcStart = nil
 	g.creativeMode = !g.creativeMode
 	if g.creativeMode {
 		g.creativeButton.SetLabel(LabelCreativeOn)
@@ -65,6 +70,7 @@ func (g *Game) setCreativeMode() {
 }
 
 func (g *Game) setCreateMode() {
+	g.arcStart = nil
 	g.createArc = !g.createArc
 	if g.createArc {
 		g.createNodeorArcButton.SetLabel(LabelCreateArc)
@@ -85,9 +91,7 @@ func (g *Game) Update() error {
 	g.createNodeorArcButton.Update()
 	if !overCreativeButton {
 		if !g.isSettingsHovered() {
-			if !g.createArc {
-				g.HandleEditInput()
-			}
+			g.HandleEditInput()
 		}
 	}
 	return nil
@@ -98,7 +102,16 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	drawArcs(screen, g.graph.GetArcs(), arcColor)
 	drawNodes(screen, g.graph.GetNodes(), nodeColor)
 	if g.creativeMode {
-		if !g.createArc && !g.isSettingsHovered() {
+		if g.createArc {
+			mouseX, mouseY := ebiten.CursorPosition()
+			node := g.graph.IsThereNode(float32(mouseX), float32(mouseY), 0)
+			if node != nil {
+				hoveredNode(screen, node.GetPose(), float32(node.GetRadius()))
+			}
+			if g.arcStart != nil {
+				drawArcPreview(screen, g.arcStart)
+			}
+		} else if !g.isSettingsHovered() {
 			drawNodePreview(screen)
 		}
 		g.createNodeorArcButton.Draw(screen)

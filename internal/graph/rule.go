@@ -21,12 +21,13 @@ var trafficName = map[typeTrafficLaw]string{
 }
 
 type rule struct {
-	speedLimit uint
-	trafficLaw typeTrafficLaw
+	speedLimit  uint
+	trafficLaw  typeTrafficLaw
+	illegalness uint
 }
 
-func NewRule(speedL uint, sign typeTrafficLaw) rule {
-	return rule{speedLimit: speedL, trafficLaw: sign}
+func NewRule(speedL uint, sign typeTrafficLaw, illegalness uint) rule {
+	return rule{speedLimit: speedL, trafficLaw: sign, illegalness: illegalness}
 }
 
 func (tt typeTrafficLaw) String() string {
@@ -36,6 +37,8 @@ func (tt typeTrafficLaw) String() string {
 func (r *rule) PrintIndent(indent string) {
 	fmt.Printf(indent+"Speed Limit: %d\n", r.speedLimit)
 	fmt.Printf(indent+"Traffic Rule: %s\n", r.trafficLaw)
+	fmt.Printf(indent+"Illegalness: %d\n", r.illegalness)
+
 }
 
 func (r *rule) GetSpeedLimit() uint {
@@ -46,10 +49,18 @@ func (r *rule) GetTrafficLaw() typeTrafficLaw {
 	return r.trafficLaw
 }
 
+func (r *rule) Getillegalness() uint {
+	return r.illegalness
+}
+
 func (r *rule) SetSpeedLimit(speed uint) {
 	r.speedLimit = speed
 }
 
 func (r *rule) SetTrafficLaw(traffic typeTrafficLaw) {
 	r.trafficLaw = traffic
+}
+
+func (r *rule) Setillegalness(newillegalness uint) {
+	r.illegalness = newillegalness
 }

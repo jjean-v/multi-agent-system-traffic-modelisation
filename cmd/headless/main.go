@@ -11,7 +11,7 @@ func main() {
 	vec2 := graph.NewVec2f(-4.6, 9.1)
 	n2 := graph.NewNode(1, vec2, 4)
 
-	rule1 := graph.NewRule(30, graph.Yield)
+	rule1 := graph.NewRule(30, graph.Yield, 3)
 	arc1 := graph.NewArc(100, &rule1, n1, n2)
 
 	n1.AddArc(arc1)

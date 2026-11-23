@@ -49,7 +49,7 @@ func (r *rule) GetTrafficLaw() typeTrafficLaw {
 	return r.trafficLaw
 }
 
-func (r *rule) Getillegalness() uint {
+func (r *rule) GetIllegalness() uint {
 	return r.illegalness
 }
 
@@ -61,6 +61,6 @@ func (r *rule) SetTrafficLaw(traffic typeTrafficLaw) {
 	r.trafficLaw = traffic
 }
 
-func (r *rule) Setillegalness(newillegalness uint) {
+func (r *rule) SetIllegalness(newillegalness uint) {
 	r.illegalness = newillegalness
 }

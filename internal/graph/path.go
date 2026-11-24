@@ -53,12 +53,10 @@ func FindPath(from, to *Node, p *Profile) ([]*Node, float64, bool) {
 	if !found {
 		return nil, 0, false
 	}
-
 	// Invert the order, first--last
 	path := make([]*Node, len(invertedPath))
 	for i, x := range invertedPath {
 		path[len(invertedPath)-1-i] = x.(searchNode).node
 	}
-
 	return path, cost, true
 }

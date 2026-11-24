@@ -3,8 +3,6 @@ package graph
 import (
 	"fmt"
 	"slices"
-
-	"github.com/beefsack/go-astar"
 )
 
 type Node struct {
@@ -72,6 +70,7 @@ func (n *Node) Print() {
 
 }
 
+/*
 func (n *Node) PathNeighbors() []astar.Pather {
 	var l []astar.Pather
 	for _, arc := range n.arcs {
@@ -89,3 +88,5 @@ func (n *Node) PathEstimatedCost(to astar.Pather) float64 {
 	t := to.(*Node)
 	return float64(n.pos.GetDistanceWith(t.pos))
 }
+
+*/

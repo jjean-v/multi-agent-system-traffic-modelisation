@@ -1,15 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"project/internal/graph"
 	"project/internal/gui"
 
-	"github.com/beefsack/go-astar"
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 func main() {
+
+	// Create Graph for A* algorithm
 	gr := graph.NewGraph()
 	n1 := gr.CreateNode(100, 200, 20)
 	n2 := gr.CreateNode(250, 200, 20)
@@ -33,17 +35,40 @@ func main() {
 	gr.AddConnection(n3.GetId(), n10.GetId())
 	gr.AddConnection(n10.GetId(), n6.GetId())
 
-	path, distance, found := astar.Path(n1, n8)
-	if !found {
-		log.Println("Could not find path")
-	} else {
-		for _, pos := range path {
-			p := pos.(*graph.Node)
-			log.Println(p.GetId())
+	// Create two types of rules
+	rulesafe := graph.NewRule(30, graph.PriorityRoad, 0)
+	rulecautious := graph.NewRule(30, graph.PriorityRoad, 4)
+
+	// Add rules to each Arc
+	for _, arc := range gr.GetArcs() {
+		if arc.GetNextNode().GetId() == n10.GetId() {
+			arc.SetRule(&rulecautious)
+		} else {
+			arc.SetRule(&rulesafe)
 		}
-		log.Println(distance)
 	}
 
+	// Create Profile
+	prudent := &graph.Profile{Lambda: 30}
+	direct := &graph.Profile{Lambda: 1}
+
+	// Launch A* algorithm
+	chemin1, _, _ := graph.FindPath(n1, n7, prudent)
+	chemin2, _, _ := graph.FindPath(n1, n7, direct)
+
+	//Print Result
+	fmt.Println("Chemin Safe")
+	for _, node := range chemin1 {
+		fmt.Print("->", node.GetId())
+	}
+	fmt.Println()
+
+	fmt.Println("Chemnin dangereux")
+	for _, node := range chemin2 {
+		fmt.Print("->", node.GetId())
+	}
+
+	//Gui Interface
 	game := gui.NewGame(&gr)
 
 	ebiten.SetWindowSize(gui.ScreenW, gui.ScreenH)

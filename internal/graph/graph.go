@@ -78,6 +78,3 @@ func (g *Graph) IsThereNode(x float32, y float32, radius uint) *Node {
 	}
 	return nil
 }
-
-func (g *Graph) Disjkstra(idStart uint, idEnd uint) {
-}

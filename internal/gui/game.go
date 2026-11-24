@@ -50,6 +50,7 @@ type Game struct {
 	creativeMode          bool
 	createArc             bool
 	arcStart              *graph.Node
+	nodeSelected          *graph.Node
 }
 
 func NewGame(gr *graph.Graph) *Game {
@@ -62,6 +63,7 @@ func NewGame(gr *graph.Graph) *Game {
 }
 
 func (g *Game) setCreativeMode() {
+	g.nodeSelected = nil
 	g.arcStart = nil
 	g.creativeMode = !g.creativeMode
 	if g.creativeMode {
@@ -72,6 +74,7 @@ func (g *Game) setCreativeMode() {
 }
 
 func (g *Game) setCreateMode() {
+	g.nodeSelected = nil
 	g.arcStart = nil
 	g.createArc = !g.createArc
 	if g.createArc {
@@ -113,8 +116,18 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			if g.arcStart != nil {
 				drawArcPreview(screen, g.arcStart)
 			}
-		} else if !g.isSettingsHovered() {
-			drawNodePreview(screen)
+		} else {
+			mouseX, mouseY := ebiten.CursorPosition()
+			node := g.graph.IsThereNode(float32(mouseX), float32(mouseY), 0)
+			if node != nil {
+				hoveredNode(screen, node.GetPose(), float32(node.GetRadius()))
+			} else if !g.isSettingsHovered() {
+				drawNodePreview(screen)
+			}
+
+			if g.nodeSelected != nil {
+				drawNodeSelected(screen, g.nodeSelected)
+			}
 		}
 		g.createNodeorArcButton.Draw(screen)
 	}

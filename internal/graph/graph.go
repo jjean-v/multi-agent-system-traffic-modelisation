@@ -71,12 +71,10 @@ func (g *Graph) DeleteNode(nodeId uint) bool {
 	if node == nil {
 		return false
 	}
-
 	// Delete arc from the node
 	for _, arc := range node.arcs {
 		g.DeleteArc(arc.id)
 	}
-
 	// Delete arc connected to the node
 	for _, node := range g.nodes {
 		for _, arc := range node.arcs {
@@ -87,7 +85,6 @@ func (g *Graph) DeleteNode(nodeId uint) bool {
 	}
 	for _, idArc := range arcToDelete {
 		g.DeleteArc(idArc)
-
 	}
 	delete(g.nodes, nodeId)
 	return true

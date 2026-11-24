@@ -65,6 +65,31 @@ func (g *Graph) DeleteArc(ArcID uint) bool {
 	return true
 }
 
+func (g *Graph) DeleteNode(nodeId uint) bool {
+	node := g.GetNodeByID(nodeId)
+	var arcToDelete []uint
+	if node == nil {
+		return false
+	}
+	// Delete arc from the node
+	for _, arc := range node.arcs {
+		g.DeleteArc(arc.id)
+	}
+	// Delete arc connected to the node
+	for _, node := range g.nodes {
+		for _, arc := range node.arcs {
+			if arc.nextNode.id == nodeId {
+				arcToDelete = append(arcToDelete, arc.id)
+			}
+		}
+	}
+	for _, idArc := range arcToDelete {
+		g.DeleteArc(idArc)
+	}
+	delete(g.nodes, nodeId)
+	return true
+}
+
 func (g *Graph) IsThereNode(x float32, y float32, radius uint) *Node {
 	vecPose := Vec2f{x: x, y: y}
 	var dist float32

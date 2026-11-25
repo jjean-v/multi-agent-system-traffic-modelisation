@@ -1,6 +1,7 @@
 package agt
 
 import (
+	"fmt"
 	"project/internal/com"
 	"project/internal/graph"
 )
@@ -21,7 +22,13 @@ func (fov *FieldOfVision) GetAngle() float32 {
 	return fov.angle
 }
 
-type Agent struct {
+type Agent interface {
+	Percept()
+	Deliberate()
+	Act()
+}
+
+type BaseAgent struct {
 	id int
 
 	pos   graph.Vec2f
@@ -31,42 +38,43 @@ type Agent struct {
 	phone    bool
 	inAHurry bool
 
-	itinary graph.Graph
+	itinary []*graph.Node
 
 	hitbox      int
 	confortZone int
 
-	fieldOfVision int //à bien définir c'est juste pour faire env
+	fieldOfVision FieldOfVision
 	goal          int //c'est un point of interest normalement, j'en ai pas besoin pour faire env
 
 	inBox chan com.Message
 }
-<<<<<<< HEAD
-=======
 
-func NewAgent(id int, pos, speed graph.Vec2f, fov FieldOfVision) *Agent {
-	return &Agent{
-		id:            id,
-		pos:           pos,
-		speed:         speed,
-		fieldOfVision: fov,
-		inBox:         make(chan com.Message),
-	}
+// Méthodes communes
+func (b *BaseAgent) GetId() int {
+	return b.id
 }
 
-func (a *Agent) GetId() int {
-	return a.id
+func (b *BaseAgent) GetPos() graph.Vec2f {
+	return b.pos
 }
 
-func (a *Agent) GetPos() graph.Vec2f {
-	return a.pos
+func (b *BaseAgent) GetSpeed() graph.Vec2f {
+	return b.speed
 }
 
-func (a *Agent) GetSpeed() graph.Vec2f {
-	return a.speed
+func (b *BaseAgent) GetFieldOfVision() FieldOfVision {
+	return b.fieldOfVision
 }
 
-func (a *Agent) GetFieldOfVision() FieldOfVision {
-	return a.fieldOfVision
+func (b *BaseAgent) GetItinary() []*graph.Node {
+	return b.itinary
 }
->>>>>>> 9e380f8 (add a constructor)
+
+func (b *BaseAgent) SetItinary(travel []*graph.Node) {
+	b.itinary = travel
+}
+
+// Appelé quand on utilie fmt.println(b)
+func (b *BaseAgent) String() string {
+	return fmt.Sprintf("ID: %d, Pos: (%.2f,%.2f), Speed: (%.2f,%.2f), On a phone: %t, In a Hurry: %t, goal: %d", b.id, b.pos.GetX(), b.pos.GetY(), b.speed.GetX(), b.speed.GetY(), b.phone, b.inAHurry, b.goal)
+}

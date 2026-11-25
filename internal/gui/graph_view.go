@@ -50,11 +50,17 @@ func drawNodePreview(screen *ebiten.Image) {
 	}
 }
 
+func drawNodeSelected(screen *ebiten.Image, node *graph.Node) {
+	pos := node.GetPose()
+	x, y := pos.GetX(), pos.GetY()
+	r := float32(node.GetRadius())
+	vector.StrokeCircle(screen, x, y, r+1, 3, nodeSelectedColor, true)
+}
+
 func drawArcPreview(screen *ebiten.Image, start *graph.Node) {
 	pos := start.GetPose()
 	x, y := pos.GetX(), pos.GetY()
-	r := float32(start.GetRadius())
-	vector.StrokeCircle(screen, x, y, r+1, 3, nodeSelectedColor, true)
+	drawNodeSelected(screen, start)
 	mouseX, mouseY := ebiten.CursorPosition()
 	vector.StrokeLine(screen, x, y, float32(mouseX), float32(mouseY), 2, arcPreviewColor, true)
 }

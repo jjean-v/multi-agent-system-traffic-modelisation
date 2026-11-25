@@ -17,9 +17,9 @@ func main() {
 	arc1 := graph.NewArc(100, &rule1, n1, n2)
 
 	pieton1 := agt.NewPedestrian(1, graph.NewVec2f(3, 4), graph.NewVec2f(1, 1), agt.NewFieldOfVision(3, 35), nil)
-	pieton2 := agt.NewPedestrian(2, graph.NewVec2f(6, 8), graph.NewVec2f(1, 1), agt.NewFieldOfVision(3, 35), nil)
+	car1 := agt.NewCar(2, graph.NewVec2f(6, 8), graph.NewVec2f(1, 1), agt.NewFieldOfVision(3, 35), nil)
 
-	agents := []agt.Agent{pieton1, pieton2}
+	agents := []agt.Agent{pieton1, car1}
 
 	for _, a := range agents {
 		a.Percept()

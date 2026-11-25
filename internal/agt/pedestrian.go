@@ -11,18 +11,18 @@ type PedestrianState int
 
 const (
 	Walking PedestrianState = iota
-	Thinking
-	Stop
+	PThinking
+	PStop
 	Dead
-	Initializing
+	PedestrianInitializing
 )
 
 var pedestrianStateName = map[PedestrianState]string{
-	Walking:      "Walking",
-	Thinking:     "Thinking",
-	Stop:         "Stop",
-	Dead:         "Dead",
-	Initializing: "Initializing",
+	Walking:                "Walking",
+	PThinking:              "Thinking",
+	PStop:                  "Stop",
+	Dead:                   "Dead",
+	PedestrianInitializing: "Initializing",
 }
 
 func (ps PedestrianState) String() string {
@@ -35,7 +35,7 @@ type Pedestrian struct {
 }
 
 func NewPedestrian(id int, pos, speed graph.Vec2f, fov FieldOfVision, inbox chan (com.Message)) *Pedestrian {
-	return &Pedestrian{BaseAgent: BaseAgent{id: id, pos: pos, speed: speed, fieldOfVision: fov, inBox: inbox}, state: Initializing}
+	return &Pedestrian{BaseAgent: BaseAgent{id: id, pos: pos, speed: speed, fieldOfVision: fov, inBox: inbox}, state: PedestrianInitializing}
 }
 
 func (p *Pedestrian) Percept() {

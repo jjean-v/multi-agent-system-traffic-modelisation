@@ -25,7 +25,10 @@ func (g *Game) HandleArcInput() {
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton(ebiten.MouseButtonLeft)) {
 		mouseX, mouseY := ebiten.CursorPosition()
 		node := g.graph.IsThereNode(float32(mouseX), float32(mouseY), 0)
-		if g.arcStart == nil {
+
+		if node == nil {
+			return
+		} else if g.arcStart == nil {
 			g.arcStart = node
 		} else if node == g.arcStart {
 			g.arcStart = nil //deselectionne quand on reclique dessus

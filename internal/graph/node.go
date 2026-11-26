@@ -55,6 +55,15 @@ func (n *Node) RemoveArc(a *Arc) {
 	}
 }
 
+func (n *Node) IsConnectedTo(otherId uint) bool {
+	for _, arc := range n.arcs {
+		if arc.nextNode.id == otherId {
+			return true
+		}
+	}
+	return false
+}
+
 func (n *Node) Print() {
 	fmt.Printf("Node:\n")
 	fmt.Printf("\tId: %d\n", n.id)

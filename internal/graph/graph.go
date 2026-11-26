@@ -1,5 +1,7 @@
 package graph
 
+import "log"
+
 type Graph struct {
 	nodes map[uint]*Node
 	arcs  map[uint]*Arc
@@ -48,8 +50,15 @@ func (g *Graph) CreateArc(from *Node, NextNode *Node) *Arc {
 func (g *Graph) AddConnection(N1 uint, N2 uint) bool {
 	if g.GetNodeByID(N1) == nil || g.GetNodeByID(N2) == nil {
 		return false
+	} else if N1 == N2 {
+		log.Println("Connexion au même noeud interdite")
+		return false
+	}
+	from := g.GetNodeByID(N1)
+	if from.IsConnectedTo(N2) {
+		log.Println("Arc déjà existant entre ces deux noeuds")
+		return false
 	} else {
-		from := g.GetNodeByID(N1)
 		from.AddArc(g.CreateArc(from, g.GetNodeByID(N2)))
 		return true
 	}
